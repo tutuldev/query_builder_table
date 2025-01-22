@@ -56,6 +56,92 @@ class StudentController extends Controller
         ->get();
         // return $students;
         return view('welcome',compact('students'));
-
     }
+
+    // undiondata
+    //column all data type must be match
+    // public function unionData(){
+    //     $lecturers = DB::table('lecturers')
+    //     ->select('name','email');
+    //     $students = DB::table('students')
+    //     ->select('name','email')
+    //     ->union($lecturers)
+    //     ->get();
+    //     return $students;
+    // }
+
+    public function unionData(){
+        $lecturers = DB::table('lecturers')
+        ->select('name','email','city_name')
+        ->join('cities','lecturers.city','=','cities.id')
+        ->where('city_name','=','delhi');
+
+        $students = DB::table('students')
+        ->union($lecturers)
+        ->select('name','email','city_name')
+        ->join('cities','students.city','=','cities.id')
+        ->where('city_name','=','goe')
+        // ->toSql();
+        ->get();
+        return $students;
+    }
+
+    // when data
+// if false then all data show
+    // public function whenData(){
+    //     $students = DB::table('students')
+    //             ->when(true,function($query){
+    //                 $query->where('age','>',20);
+    //             })
+    //             ->get();
+    //             return $students;
+    // }
+
+    // when true and when false
+    public function whenData(){
+        $cond=true;
+            $students = DB::table('students')
+                    ->when( $cond,function($query){
+                        $query->where('age','>',20);
+                    },function( $query){
+                        $query->where('age','<',20);
+                    })
+                    ->get();
+                    return $students;
+        }
+
+        // // chunk data
+        // public function chunkData(){
+        //     $students= DB::table('students')->orderBy('id')
+        //     ->chunk(3,function($students){
+        //         foreach($students as $student){
+        //             echo $student->name . "<br>";
+        //         }
+        //     });
+        // }
+
+        // chunk check how to data come with 3
+        public function chunkData(){
+            $students= DB::table('students')->orderBy('id')
+            ->chunk(3,function($students){
+                echo "<div style='border:1px solid red;margin-bottom:15px;'>";
+                    foreach($students as $student){
+                        echo $student->name . "<br>";
+                    }
+                echo "</div>";
+            });
+        }
+
+        // update with chunk
+        public function chunkDataUpdate(){
+            $students= DB::table('students')->orderBy('id')
+            ->chunkById(3,function($students){
+                    foreach($students as $student){
+                       DB::table('students')
+                       ->where('id',$student->id)
+                       ->update(['status'=>true]);
+                    //    ->update(['status'=>true], , , ,); //if need multicolumn
+                    }
+            });
+        }
 }
