@@ -1,0 +1,39 @@
+
+[
+    {
+        "name":"ya2hoo2 baba",
+        "email": "yaa2hoobaba@gmail.com",
+        "age":20,
+        "city":1
+    },
+    {
+        "name":"Salman Khan",
+        "email": "salman@gmail.com",
+        "age":23,
+        "city":2
+    },
+    {
+        "name":"Amitabh Bachan",
+        "email": "amitabh@gmail.com",
+        "age":25,
+        "city":3
+    },
+    {
+        "name":"Amitabhg Bachan",
+        "email": "amitabh2@gmail.com",
+        "age":21,
+        "city":1
+    },
+    {
+        "name":"Amitabh Bachan",
+        "email": "amita74bh@gmail.com",
+        "age":27,
+        "city":2
+    },
+    {
+        "name":"Amitabh8 Bachan",
+        "email": "amitabh8@gmail.com",
+        "age":28,
+        "city":1
+    }
+]

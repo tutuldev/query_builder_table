@@ -1,0 +1,128 @@
+1st create
+migraction and model :
+i) php artisan make:migration create_students_table
+            $table->id();
+            $table->string('name');
+            $table->string('email');
+            $table->integer('age');
+            $table->integer('city');
+
+ii) php artisan make:migration create_cities_table
+$table->id();
+$table->string('city_name')->unique()->nullable();
+
+or create model migraction both-->
+
+php artisan make:model student -m
+php artisan make:model city -m
+
+of timestaps form model -->
+public $timestamps = false;
+
+seeder -->
+php artisan make:seeder StudentSeeder
+php artisan make:seeder CitySeeder
+
+fill seeder file and create file for json data-->
+
+$json=File::get(path:'database/json/students.json');
+        $students=collect(json_decode($json));
+
+        $students->each(function ($student){
+                student::create([
+                    'name'=>$student->name,
+                    'email'=> $student->email,
+                    'age'=> $student->age,
+                    'city'=> $student->city,
+                ]);
+        });
+
+$json=File::get(path:'database/json/cities.json');
+           $cities=collect(json_decode($json));
+
+           $cities->each(function ($city){
+                   city::create([
+                       'city_name'=>$city->city_name,
+                   ]);
+           });
+
+
+json data -->1
+
+[
+    {
+        "name":"ya2hoo2 baba",
+        "email": "yaa2hoobaba@gmail.com",
+        "age":20,
+        "city":1
+    },
+    {
+        "name":"Salman Khan",
+        "email": "salman@gmail.com",
+        "age":23,
+        "city":2
+    },
+    {
+        "name":"Amitabh Bachan",
+        "email": "amitabh@gmail.com",
+        "age":25,
+        "city":3
+    },
+    {
+        "name":"Amitabhg Bachan",
+        "email": "amitabh2@gmail.com",
+        "age":21,
+        "city":1
+    },
+    {
+        "name":"Amitabh Bachan",
+        "email": "amita74bh@gmail.com",
+        "age":27,
+        "city":2
+    },
+    {
+        "name":"Amitabh8 Bachan",
+        "email": "amitabh8@gmail.com",
+        "age":28,
+        "city":1
+    }
+]
+
+json data -->2
+[
+    {
+        "city_name":"Dhaka"
+    },
+    {
+        "city_name":"Chuadanga"
+    },
+    {
+        "city_name":"Khulna"
+    },
+    {
+        "city_name":"Ronpur"
+    },
+    {
+        "city_name":"Dhaka"
+    },
+    {
+        "city_name":"Citagong"
+    }
+]
+DatabaseSeeder-->
+use App\Models\city;
+use App\Models\student;
+
+            $this->call([
+            StudentSeeder::class,
+            CitySeeder::class
+         ]);
+
+make controller -->
+php artisan make:controller StudentController
+php artisan make:controller CityController
+
+
+migraction with all seed run -->
+php artisan migrate --seed
+php artisan migrate:fresh --seed
